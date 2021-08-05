@@ -1,0 +1,27 @@
+import React from "react";
+import NavBar from './Components/UI/NavBar/NavBar'
+import Footer from './Components/UI/Footer/Footer'
+import { Route, Switch } from 'react-router-dom'
+import SearchPage from './Components/Screens/SearchPage/SearchPage'
+import Home from './Components/Screens/Home/Home'
+
+const App = () =>
+{
+
+
+  return (
+    <div >
+      <NavBar />
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/rooms" component={SearchPage} />
+      </Switch>
+
+
+      <Footer />
+    </div >
+
+  );
+}
+
+export default App;
