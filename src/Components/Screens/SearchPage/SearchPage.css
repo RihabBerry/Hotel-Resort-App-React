@@ -1,0 +1,42 @@
+.SearchContainers{
+    display :flex;
+    flex-direction: row;
+    justify-content:space-around;
+}
+
+.SearchItem {
+
+
+}
+
+h1{
+text-align: center;
+text-transform: capitalize;
+color: seashell;
+font-size: 50px;
+font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.containerInputCheckBox {
+ display : flex;
+ justify-content: space-around;
+ flex-direction: column;
+}
+
+span{
+    color :seashell;
+    font-size: 20px;
+}
+.range{
+    position: absolute;
+    left: 1255px;
+    top:135px;
+    padding: 0;
+    margin: 0;
+}
+.Input {
+  position: absolute;
+  left: 980px;
+  top: 458;
+  width: 100px;
+} 
