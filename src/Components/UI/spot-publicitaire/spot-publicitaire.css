@@ -1,0 +1,21 @@
+.spot{
+
+    background-color: rgba(99, 92, 71,0.45);
+    text-transform: capitalize;
+    color: aliceblue;
+    font-size:36px;
+    text-align:center;
+    margin: auto;
+    width: 50%;
+    position: absolute; left:480px; top:320px;
+  }
+   .spot-price{
+     
+   } 
+   button {
+   color:saddlebrown;
+   background-color: darkgoldenrod;
+  }
+  a{
+    text-decoration:none;
+  }
