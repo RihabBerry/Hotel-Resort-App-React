@@ -13,8 +13,9 @@ const App = () =>
     <div >
       <NavBar />
       <Switch>
-        <Route path="/home" component={Home} />
         <Route path="/rooms" component={SearchPage} />
+        <Route path="/home" component={Home} />
+
       </Switch>
 
 
