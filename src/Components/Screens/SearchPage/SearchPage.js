@@ -8,7 +8,7 @@ const SearchPage = () => {
     {
       id: uuidv4(),
       description: "Chnambre du luxe 1",
-      size: 250,
+      size: "250",
       guests: "4",
       roomType: "family room",
       pets: false,
@@ -20,7 +20,7 @@ const SearchPage = () => {
       description: "chambre du lux2",
       picture: "pictures/pic2.jfif",
       price: 2000,
-      size: 300,
+      size: "300",
       guests: "4",
       roomType: "single room",
       pets: true,
@@ -30,7 +30,7 @@ const SearchPage = () => {
       description: "chambre du luxe 3",
       picture: "pictures/pic2.jfif",
       price: 2500,
-      size: 350,
+      size: "350",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -40,7 +40,7 @@ const SearchPage = () => {
       description: "chambre du luxe 4",
       picture: "pictures/pic3.jfif",
       price: 3000,
-      size: 400,
+      size: "400",
       guests: "3",
       roomType: "luxiourious family room",
       pets: true,
@@ -50,7 +50,7 @@ const SearchPage = () => {
       description: "chambre du luxe 5",
       picture: "pictures/pic4.jfif",
       price: 3000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -60,7 +60,7 @@ const SearchPage = () => {
       description: "chambre du luxe 4",
       picture: "pictures/pic3.jfif",
       price: 2000,
-      size: 300,
+      size: "300",
       guests: "4",
       roomType: "single room",
       pets: false,
@@ -70,7 +70,7 @@ const SearchPage = () => {
       description: "chambre du luxe 5",
       picture: "pictures/pic4.jfif",
       price: 6000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -80,7 +80,7 @@ const SearchPage = () => {
       description: "chambre du luxe 4",
       picture: "pictures/pic3.jfif",
       price: 6000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -90,7 +90,7 @@ const SearchPage = () => {
       description: "chambre du luxe 5",
       picture: "pictures/pic4.jfif",
       price: 6000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -100,7 +100,7 @@ const SearchPage = () => {
       description: "chambre du luxe 4",
       picture: "pictures/pic3.jfif",
       price: 3000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: false,
@@ -110,7 +110,7 @@ const SearchPage = () => {
       description: "chambre du luxe 5",
       picture: "pictures/pic4.jfif",
       price: 6000,
-      size: 250,
+      size: "250",
       guests: "2",
       roomType: "family room",
       pets: true,
@@ -119,9 +119,15 @@ const SearchPage = () => {
   const [foundRooms, setFoundRooms] = useState(Rooms);
   const [roomType, setRoomType] = useState("All");
   const [guestNumber, setGuestNumber] = useState("0");
+  const [roomSize, setRoomSize] = useState("0");
 
   const HandleGuestNumber = (state) => {
     const results = Rooms.filter((room) => room.guests === state);
+    return results;
+  };
+
+  const HandleRoomSize = (state) => {
+    const results = Rooms.filter((room) => room.size === state);
     return results;
   };
 
@@ -137,25 +143,45 @@ const SearchPage = () => {
   const HandleOnChange = (event) => {
     switch (event.target.name) {
       case "roomType":
+        let filterByRomType = Rooms.filter(
+          (room) =>
+            HandleRoomType(event.target.value).some((r) => r.id === room.id) &&
+            HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
+            HandleRoomSize(roomSize).some((r) => r.id === room.id)
+        );
+        setFoundRooms(filterByRomType);
         setRoomType(event.target.value);
+
         break;
       case "guestNumber":
+        let filterByGuestNumber = Rooms.filter(
+          (room) =>
+            HandleRoomType(roomType).some((r) => r.id === room.id) &&
+            HandleGuestNumber(event.target.value).some(
+              (r) => r.id === room.id
+            ) &&
+            HandleRoomSize(roomSize).some((r) => r.id === room.id)
+        );
+        setFoundRooms(filterByGuestNumber);
         setGuestNumber(event.target.value);
         break;
+      case "roomSize":
+        let filterByRoomSize = Rooms.filter(
+          (room) =>
+            HandleRoomType(roomType).some((r) => r.id === room.id) &&
+            HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
+            HandleRoomSize(event.target.value).some((r) => r.id === room.id)
+        );
+        console.log("this is filterByRoomSize", filterByRoomSize);
+        setFoundRooms(filterByRoomSize);
+        setRoomSize(event.target.value);
+        break;
+
+        break;
+
       default:
         console.log(`Sorry, we are out of.`);
     }
-
-    console.log("this is the rooms from roomType", HandleRoomType(roomType));
-    console.log(
-      "this is the rooms from guestnumber",
-      HandleGuestNumber(guestNumber)
-    );
-
-    let foundRooms = HandleRoomType(roomType) && HandleGuestNumber(guestNumber);
-
-    console.log("this is the intersection", foundRooms);
-    setFoundRooms(foundRooms);
   };
 
   return (
@@ -191,7 +217,12 @@ const SearchPage = () => {
         </div>
         <div className="SearchItem">
           <span>Room size :</span>
-          <input className="Input"></input>
+          <input
+            className="Input"
+            onChange={HandleOnChange}
+            name="roomSize"
+            value={roomSize}
+          ></input>
         </div>
         <div className="SearchItem">
           <span>Room Price</span>
