@@ -14,6 +14,7 @@ const SearchPage = () => {
       pets: false,
       picture: "pictures/pic.jfif",
       price: 1000,
+      Breakfast: true,
     },
     {
       id: uuidv4(),
@@ -24,6 +25,7 @@ const SearchPage = () => {
       guests: "4",
       roomType: "single room",
       pets: true,
+      Breakfast: true,
     },
     {
       id: uuidv4(),
@@ -34,6 +36,7 @@ const SearchPage = () => {
       guests: "2",
       roomType: "family room",
       pets: true,
+      Breakfast: true,
     },
     {
       id: uuidv4(),
@@ -44,6 +47,7 @@ const SearchPage = () => {
       guests: "3",
       roomType: "luxiourious family room",
       pets: true,
+      Breakfast: false,
     },
     {
       id: uuidv4(),
@@ -53,6 +57,7 @@ const SearchPage = () => {
       size: "250",
       guests: "2",
       roomType: "family room",
+      breakfast: true,
       pets: true,
     },
     {
@@ -63,6 +68,7 @@ const SearchPage = () => {
       size: "300",
       guests: "4",
       roomType: "single room",
+      breakfast: false,
       pets: false,
     },
     {
@@ -73,7 +79,8 @@ const SearchPage = () => {
       size: "250",
       guests: "2",
       roomType: "family room",
-      pets: true,
+      breakfast: true,
+      pets: false,
     },
     {
       id: uuidv4(),
@@ -84,6 +91,7 @@ const SearchPage = () => {
       guests: "2",
       roomType: "family room",
       pets: true,
+      breakfast: false,
     },
     {
       id: uuidv4(),
@@ -94,6 +102,7 @@ const SearchPage = () => {
       guests: "2",
       roomType: "family room",
       pets: true,
+      breakfast: true,
     },
     {
       id: uuidv4(),
@@ -104,6 +113,7 @@ const SearchPage = () => {
       guests: "2",
       roomType: "family room",
       pets: false,
+      breakfast: false,
     },
     {
       id: uuidv4(),
@@ -114,12 +124,15 @@ const SearchPage = () => {
       guests: "2",
       roomType: "family room",
       pets: true,
+      breakfast: true,
     },
   ];
   const [foundRooms, setFoundRooms] = useState(Rooms);
   const [roomType, setRoomType] = useState("All");
   const [guestNumber, setGuestNumber] = useState("0");
   const [roomSize, setRoomSize] = useState("0");
+  const [petsChecked, setpetsChecked] = useState(false);
+  const [breakfastChecked, setbreakfastChecked] = useState(false);
 
   const HandleGuestNumber = (state) => {
     const results = Rooms.filter((room) => room.guests === state);
@@ -131,6 +144,15 @@ const SearchPage = () => {
     return results;
   };
 
+  const HandlePetsChecked = (state) => {
+    const result = Rooms.filter((room) => room.pets === state);
+    return result;
+  };
+
+  const HandleBreakFastChecked = (state) => {
+    const result = Rooms.filter((room) => room.breakfast === state);
+    return result;
+  };
   const HandleRoomType = (state) => {
     let results = [];
     results = Rooms.filter((room) => {
@@ -141,15 +163,20 @@ const SearchPage = () => {
   };
 
   const HandleOnChange = (event) => {
+    console.log("this is event.target.checked", event.target.checked);
     switch (event.target.name) {
       case "roomType":
-        let filterByRomType = Rooms.filter(
+        let filterByRoomType = Rooms.filter(
           (room) =>
             HandleRoomType(event.target.value).some((r) => r.id === room.id) &&
             HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
-            HandleRoomSize(roomSize).some((r) => r.id === room.id)
+            HandleRoomSize(roomSize).some((r) => r.id === room.id) &&
+            HandlePetsChecked(petsChecked).some((r) => r.id === room.id) &&
+            HandleBreakFastChecked(breakfastChecked).some(
+              (r) => r.id === room.id
+            )
         );
-        setFoundRooms(filterByRomType);
+        setFoundRooms(filterByRoomType);
         setRoomType(event.target.value);
 
         break;
@@ -160,7 +187,11 @@ const SearchPage = () => {
             HandleGuestNumber(event.target.value).some(
               (r) => r.id === room.id
             ) &&
-            HandleRoomSize(roomSize).some((r) => r.id === room.id)
+            HandleRoomSize(roomSize).some((r) => r.id === room.id) &&
+            HandlePetsChecked(petsChecked).some((r) => r.id === room.id) &&
+            HandleBreakFastChecked(breakfastChecked).some(
+              (r) => r.id === room.id
+            )
         );
         setFoundRooms(filterByGuestNumber);
         setGuestNumber(event.target.value);
@@ -170,15 +201,49 @@ const SearchPage = () => {
           (room) =>
             HandleRoomType(roomType).some((r) => r.id === room.id) &&
             HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
-            HandleRoomSize(event.target.value).some((r) => r.id === room.id)
+            HandleRoomSize(event.target.value).some((r) => r.id === room.id) &&
+            HandlePetsChecked(petsChecked).some((r) => r.id === room.id) &&
+            HandleBreakFastChecked(breakfastChecked).some(
+              (r) => r.id === room.id
+            )
         );
         console.log("this is filterByRoomSize", filterByRoomSize);
         setFoundRooms(filterByRoomSize);
         setRoomSize(event.target.value);
         break;
-
+      case "checkboxForBreakfast":
+        let filterByBreackFast = Rooms.filter(
+          (room) =>
+            HandleRoomType(roomType).some((r) => r.id === room.id) &&
+            HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
+            HandleRoomSize(roomSize).some((r) => r.id === room.id) &&
+            HandlePetsChecked(petsChecked).some((r) => r.id === room.id) &&
+            HandleBreakFastChecked(event.target.checked).some(
+              (r) => r.id === room.id
+            )
+        );
+        console.log("this is filterByPets", filterByBreackFast);
+        setFoundRooms(filterByBreackFast);
+        setbreakfastChecked(event.target.checked);
         break;
 
+      case "checkboxForPets":
+        let filterByPets = Rooms.filter(
+          (room) =>
+            HandleRoomType(roomType).some((r) => r.id === room.id) &&
+            HandleGuestNumber(guestNumber).some((r) => r.id === room.id) &&
+            HandleRoomSize(roomSize).some((r) => r.id === room.id) &&
+            HandlePetsChecked(event.target.checked).some(
+              (r) => r.id === room.id
+            ) &&
+            HandleBreakFastChecked(breakfastChecked).some(
+              (r) => r.id === room.id
+            )
+        );
+        console.log("this is filterByPets", filterByPets);
+        setFoundRooms(filterByPets);
+        setpetsChecked(event.target.checked);
+        break;
       default:
         console.log(`Sorry, we are out of.`);
     }
@@ -229,9 +294,18 @@ const SearchPage = () => {
           <input type="range" className="range" />
         </div>
         <div className="containerInputCheckBox">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={HandleOnChange}
+            name="checkboxForPets"
+            value={petsChecked}
+          />
           <span>Pets</span>
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={HandleOnChange}
+            name="checkboxForBreakfast"
+          />
           <span>BreackFast</span>
         </div>
       </div>
