@@ -1,132 +1,9 @@
 import React, { useState } from "react";
 import "./SearchPage.css";
 import RoomList from "./RoomList";
-import { v4 as uuidv4 } from "uuid";
+import { Rooms } from "./data";
 
 const SearchPage = () => {
-  const Rooms = [
-    {
-      id: uuidv4(),
-      description: "Chnambre du luxe 1",
-      size: "250",
-      guests: "4",
-      roomType: "family room",
-      pets: false,
-      picture: "pictures/pic.jfif",
-      price: 1000,
-      Breakfast: true,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du lux2",
-      picture: "pictures/pic2.jfif",
-      price: 2000,
-      size: "300",
-      guests: "4",
-      roomType: "single room",
-      pets: true,
-      Breakfast: true,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 3",
-      picture: "pictures/pic2.jfif",
-      price: 2500,
-      size: "350",
-      guests: "2",
-      roomType: "family room",
-      pets: true,
-      Breakfast: true,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 4",
-      picture: "pictures/pic3.jfif",
-      price: 3000,
-      size: "400",
-      guests: "3",
-      roomType: "luxiourious family room",
-      pets: true,
-      Breakfast: false,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 5",
-      picture: "pictures/pic4.jfif",
-      price: 3000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      breakfast: true,
-      pets: true,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 4",
-      picture: "pictures/pic3.jfif",
-      price: 2000,
-      size: "300",
-      guests: "4",
-      roomType: "single room",
-      breakfast: false,
-      pets: false,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 5",
-      picture: "pictures/pic4.jfif",
-      price: 6000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      breakfast: true,
-      pets: false,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 4",
-      picture: "pictures/pic3.jfif",
-      price: 6000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      pets: true,
-      breakfast: false,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 5",
-      picture: "pictures/pic4.jfif",
-      price: 6000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      pets: true,
-      breakfast: true,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 4",
-      picture: "pictures/pic3.jfif",
-      price: 3000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      pets: false,
-      breakfast: false,
-    },
-    {
-      id: uuidv4(),
-      description: "chambre du luxe 5",
-      picture: "pictures/pic4.jfif",
-      price: 6000,
-      size: "250",
-      guests: "2",
-      roomType: "family room",
-      pets: true,
-      breakfast: true,
-    },
-  ];
   const [foundRooms, setFoundRooms] = useState(Rooms);
   const [roomType, setRoomType] = useState("All");
   const [guestNumber, setGuestNumber] = useState("0");
@@ -135,13 +12,21 @@ const SearchPage = () => {
   const [breakfastChecked, setbreakfastChecked] = useState(false);
 
   const HandleGuestNumber = (state) => {
-    const results = Rooms.filter((room) => room.guests === state);
-    return results;
+    if (state === "0") {
+      return Rooms;
+    } else {
+      const results = Rooms.filter((room) => room.guests === state);
+      return results;
+    }
   };
 
   const HandleRoomSize = (state) => {
-    const results = Rooms.filter((room) => room.size === state);
-    return results;
+    if (state === "0") {
+      return Rooms;
+    } else {
+      const results = Rooms.filter((room) => room.size === state);
+      return results;
+    }
   };
 
   const HandlePetsChecked = (state) => {
@@ -176,6 +61,7 @@ const SearchPage = () => {
               (r) => r.id === room.id
             )
         );
+
         setFoundRooms(filterByRoomType);
         setRoomType(event.target.value);
 
@@ -207,7 +93,6 @@ const SearchPage = () => {
               (r) => r.id === room.id
             )
         );
-        console.log("this is filterByRoomSize", filterByRoomSize);
         setFoundRooms(filterByRoomSize);
         setRoomSize(event.target.value);
         break;
@@ -222,7 +107,6 @@ const SearchPage = () => {
               (r) => r.id === room.id
             )
         );
-        console.log("this is filterByPets", filterByBreackFast);
         setFoundRooms(filterByBreackFast);
         setbreakfastChecked(event.target.checked);
         break;
@@ -240,7 +124,6 @@ const SearchPage = () => {
               (r) => r.id === room.id
             )
         );
-        console.log("this is filterByPets", filterByPets);
         setFoundRooms(filterByPets);
         setpetsChecked(event.target.checked);
         break;
@@ -309,7 +192,7 @@ const SearchPage = () => {
           <span>BreackFast</span>
         </div>
       </div>
-      <div className="photo-container">
+      <div>
         <RoomList foundRooms={foundRooms} />
       </div>
     </div>
